@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Year Wishes</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Use Poppins font */
+            background: linear-gradient(to right, #f4791a, #f4b41a);
+            color: #fff;
+            /* Set text color to white */
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        #container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #wishes {
+            max-width: 600px;
+            padding: 40px;
+            background-color: #143b59;
+            /* Dark grey card background color */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            animation: fadeIn 1s ease-out;
+            box-shadow: 4px 8px 15px -2px rgba(33, 33, 33, 0.714);
+
+        }
+
+        h1 {
+            color: #e44d26;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #fff;
+            /* Set text color to white */
+        }
+
+        #countdown {
+            font-size: 24px;
+            color: #e44d26;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        #fireworks {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .firework {
+            position: absolute;
+            pointer-events: none;
+            animation: explode 0.7s ease-out forwards, rotate 3s linear infinite;
+        }
+
+        .circle {
+            background: #e44d26;
+            border-radius: 50%;
+        }
+
+        .star {
+            background: #e44d26;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        }
+
+        .animated-btn {
+            background-color: #e44d26;
+            color: #fff;
+            font-size: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .animated-btn:hover {
+            background-color: #d13d1a;
+            /* Darker shade when hovered */
+        }
+
+        .animated-btn:active {
+            transform: scale(0.95);
+            /* Slightly reduce size when clicked */
+        }
+
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes explode {
+            to {
+                width: 200px;
+                height: 200px;
+                opacity: 0;
+            }
+        }
+
+        @keyframes rotate {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="fireworks"></div>
+    <div id="container">
+        <div id="wishes">
+            <h1>Happy New Year 2024!</h1>
+            <p id="greetingParagraph">May the year 2024 bring you joy, success, and new opportunities. Thank you for
+                your continued support and collaboration.</p>
+            <button onclick="generateRandomGreeting()" id="greetBtn" class="animated-btn">Generate Greeting 🎉</button>
+            <div id="countdown"></div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        // Countdown Timer
+        function updateCountdown() {
+            const currentDate = new Date();
+            const newYearDate = new Date(2024, 0, 1); // Set the target year to 2024
+            const timeRemaining = newYearDate - currentDate;
+
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown').innerHTML = `Time until New Year: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call to display countdown immediately
+
+        // Fireworks Animation
+        function createFirework() {
+            const firework = $('<div class="firework"></div>');
+            const isStar = Math.random() < 0.5; // 50% chance of star-shaped firework
+
+            if (isStar) {
+                firework.addClass('star');
+            } else {
+                firework.addClass('circle');
+            }
+
+            firework.css({
+                top: Math.random() * 100 + 'vh',
+                left: Math.random() * 100 + 'vw',
+                width: '10px',
+                height: '10px',
+            });
+
+            $('#fireworks').append(firework);
+        }
+
+        function animateFireworks() {
+            function createAndAnimateFirework() {
+                createFirework();
+                setTimeout(createAndAnimateFirework, Math.random() * 500); /* Increase the frequency */
+            }
+
+            createAndAnimateFirework();
+        }
+
+        animateFireworks();
+
+
+        function generateRandomGreeting() {
+            const greetings = [
+                "Wishing you a spectacular New Year filled with joy, success, and endless possibilities!",
+                "Cheers to a fresh start and a year filled with love, laughter, and prosperity.",
+                "May the coming year bring you happiness, good health, and all the success you deserve.",
+                "Happy New Year! May your dreams take flight and your resolutions come to life.",
+                "Wishing you a year ahead filled with exciting adventures, new opportunities, and boundless joy.",
+                "May the New Year be a chapter of love, peace, and new beginnings for you and your loved ones.",
+                "Here's to another 365 days of laughter, love, and incredible moments. Happy New Year!",
+                "May the upcoming year be your best one yet, filled with achievements, growth, and wonderful memories.",
+                "Wishing you a Happy New Year filled with positivity, good vibes, and success in all your endeavors.",
+                "Cheers to new friendships, new experiences, and a year full of possibilities. Happy 2024!",
+                "May the coming year bring you closer to your goals and shower you with happiness and good fortune.",
+                "Wishing you a year ahead that's as bright and promising as the fireworks on New Year's Eve.",
+                "May each day of the New Year be filled with joy, laughter, and moments that take your breath away.",
+                "Here is to turning the page and starting a new chapter of success, love, and happiness. Happy New Year!",
+                "May your dreams soar to new heights and your resolutions be achieved in the coming year.",
+                "As the clock strikes midnight, may all your worries fade away, and the New Year bring you endless joy.",
+                "Wishing you 365 days of love, laughter, and prosperity in the upcoming year. Happy New Year!",
+                "May the New Year be a canvas of beautiful moments, painted with love, laughter, and success.",
+                "Cheers to a year filled with exciting challenges, growth, and moments of pure happiness.",
+                "May the New Year be a tapestry of blessings, opportunities, and wonderful surprises for you and your loved ones."
+            ];
+
+            const randomIndex = Math.floor(Math.random() * greetings.length);
+            const randomGreeting = greetings[randomIndex];
+
+            document.getElementById('greetingParagraph').innerHTML = randomGreeting;
+        }
+    </script>
+</body>
+
+</html>
